@@ -1,7 +1,12 @@
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
@@ -56,8 +61,38 @@ class StreamPractice {
         LongConsumer longConsumer = i -> System.out.println("longPrimitive Consumer : " + i);
         longStream.forEach(longConsumer);
 
-        // Random
+        // boxed
+        /*
+         * Intstream 같이 우너시 타입에 대한 스트림 지원을 클래스 타입(예: IntStream -> Stream<Integer>)으로 전환
+         */
+        Stream<Integer> boxedIntStream = IntStream.range(1, 3).boxed();
+        boxedIntStream.forEach(data -> System.out.println("boxed - boxedIntStream : " + data));
 
+        // Random 랜덤
+        IntStream doubles = new Random().ints(45, 1, 45)
+                .distinct()
+                .limit(6); // 난수 6개 생성 1 ~ 45 범위
+        doubles.forEach(element -> System.out.println("random ints : " + element));
+
+        // 문자열 스트림
+        IntStream chars = "Stream".chars();
+        chars.forEach(element -> System.out.println("문자열 스트림 charStream : " + element));
+
+        // 정규식 사용
+        Stream<String> stringStream = Pattern.compile(", ").splitAsStream("Eric, Elena, Chire");
+        stringStream.forEach(element -> System.out.println(" stringStream : " + element));
+
+        // 파일 스트림
+        /* IO Exception 처리 필요 */
+        Stream<String> lineStream = Stream.<String>builder().build();
+        try {
+            lineStream = Files.lines(Paths.get("src/main/resources/application.yml"), Charset.forName("UTF-8"));
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        // 125
     }
 
 }
