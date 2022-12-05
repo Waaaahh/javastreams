@@ -1,5 +1,9 @@
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.IntConsumer;
+import java.util.function.LongConsumer;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 class StreamPractice {
@@ -39,5 +43,21 @@ class StreamPractice {
 
         // iterate
         /* 30이 초기 값이고 값이 2씩 증가하는 값 만들기 */
+        /* 이 때 생성되는 스트림으 ㄴ크기가 정해져있지 않고 무한하기 때문에 특정사이즈로 최대 크기를 제한 */
+        Stream<Integer> iteratedStream = Stream.iterate(30, n -> n + 2).limit(5);
+        iteratedStream.forEach(element -> System.out.println("iterated - iteratedStream : " + element));
+
+        // 기보 ㄴ타입형 스트림
+        IntStream intStream = IntStream.range(1, 5);
+        LongStream longStream = LongStream.range(1, 5);
+
+        IntConsumer intConsumer = i -> System.out.println("intPrimitive Consumer : " + i);
+        intStream.forEach(intConsumer);
+        LongConsumer longConsumer = i -> System.out.println("longPrimitive Consumer : " + i);
+        longStream.forEach(longConsumer);
+
+        // Random
+
     }
+
 }
